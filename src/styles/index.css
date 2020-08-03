@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap");
+
+:root {
+  --main-bg-color: rgb(37, 44, 59);
+  --canvas-default-bg-color: rgb(49, 55, 68);
+  --button-primary: rgb(55, 101, 222);
+  --button-secondary: rgb(29, 104, 101);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+
+#actions {
+  margin-bottom: 2rem;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+canvas {
+  background-color: var(--canvas-default-bg-color);
+  box-shadow: 20px 20px 60px #1f2532, -20px -20px 60px #2b3344;
+  border-radius: 6px;
+  cursor: url("../assets//ic-upload.svg") auto;
+}
+input {
+  margin-top: 2rem;
+}
+
+.button {
+  padding: 1rem;
+  border-radius: 6px;
+  color: #fff;
+  margin: 0;
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.primary-button {
+  background-color: var(--button-primary);
+}
+
+.primary-secondary {
+  background-color: var(--button-secondary);
+}
+
+.upload-button {
+  margin-top: 2rem;
+  width: 560px;
+  font-size: 1.4rem;
+  text-align: center;
+  font-size: none;
+}
+
+.hidden {
+  display: none;
+  height: 0;
+  width: 0;
+  transform: scale(0);
+}
+
+label {
+  color: #fff;
+  margin-left: 2rem;
+}
+.color-picker {
+  height: 2rem;
+}

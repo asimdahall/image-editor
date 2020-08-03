@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <link rel="stylesheet" href="./src/styles/index.css" />
+  </head>
+  <body>
+    <div id="actions">
+      <span>
+        <button class="button primary-button" id="rotate-out">
+          <img src="./src/assets/ic-rotate-right.svg" alt="rotate right" />
+        </button>
+        <button class="button primary-button" id="rotate-in">
+          <img src="./src/assets/ic-rotate-left.svg" alt="rotate right" />
+        </button>
+
+        <button class="button primary-button square-button" id="zoom-in">
+          <img src="./src/assets/ic-zoom-in.svg" alt="rotate right" />
+        </button>
+        <button class="button primary-button square-button" id="zoom-out">
+          <img src="./src/assets/ic-zoom-out.svg" alt="rotate right" />
+        </button>
+        <label for="color-select">
+          Select Pen Color
+          <input
+            value="#ff0000"
+            type="color"
+            name="color-select"
+            id="color-select"
+          />
+        </label>
+      </span>
+
+      <button class="button primary-button" id="download">
+        <img src="./src/assets/ic-download.svg" alt="rotate right" />
+      </button>
+    </div>
+    <canvas id="paint" height="600" width="600"></canvas>
+    <label for="image-upload" class="button primary-button upload-button">
+      Upload Image
+    </label>
+
+    <input class="hidden" type="file" id="image-upload" accept="image/*" />
+  </body>
+  <script src="./src/index.ts"></script>
+</html>
