@@ -14,6 +14,7 @@ function init() {
   const rotateIn = <HTMLButtonElement>document.getElementById("rotate-in");
   const rotateOut = <HTMLButtonElement>document.getElementById("rotate-out");
   const colorInput = <HTMLInputElement>document.getElementById("color-select");
+  const brushSize = <HTMLInputElement>document.getElementById("brush-select");
 
   //initialize canvas
   const paintBoard = new PaintBoard(canvas as HTMLCanvasElement);
@@ -21,17 +22,30 @@ function init() {
   // @canvas event-listeners
   canvas.addEventListener("mousedown", paintBoard.start);
   canvas.addEventListener("mouseup", paintBoard.finish);
+  document.addEventListener("mouseup", paintBoard.finish);
   canvas.addEventListener("mousemove", paintBoard.draw);
-  canvas.addEventListener("mouseout", paintBoard.finish);
+  canvas.addEventListener("mouseout", paintBoard.onMouseOut);
+  canvas.addEventListener("mouseenter", paintBoard.onMouseEnter);
 
   // @file-upload event-listener
-  fileUploadButton.addEventListener("change", (e)=>paintBoard.addImage(e.target.files[0));
-  zoomIn.addEventListener("click", console.log);
-  zoomOut.addEventListener("click", console.log);
+  fileUploadButton.addEventListener(
+    "change",
+    (e: Event & { target: HTMLInputElement }) =>
+      paintBoard.addImage(e.target.files[0])
+  );
+  zoomIn.addEventListener("click", paintBoard.zoomIn);
+  zoomOut.addEventListener("click", paintBoard.zoomOut);
   rotateIn.addEventListener("click", paintBoard.rotatePlus);
   rotateOut.addEventListener("click", paintBoard.rotateMinus);
   download.addEventListener("click", paintBoard.downloadImage);
-  colorInput.addEventListener("change", (e) =>
-    paintBoard.setPenColor(e.target.value)
+  brushSize.addEventListener(
+    "change",
+    (e: Event & { target: HTMLInputElement }) =>
+      paintBoard.setBrushSize(Number(e.target.value))
+  );
+  colorInput.addEventListener(
+    "change",
+    (e: Event & { target: HTMLInputElement }) =>
+      paintBoard.setPenColor(e.target.value)
   );
 }
