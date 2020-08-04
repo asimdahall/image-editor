@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jspdf": "^1.5.3",
     "parcel-bundler": "^1.12.4"
   },
   "devDependencies": {

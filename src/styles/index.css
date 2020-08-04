@@ -23,6 +23,13 @@ body {
 }
 
 #actions {
+  margin-bottom: 0.4rem;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+#secondary-actions {
   margin-bottom: 2rem;
   display: flex;
   width: 600px;
@@ -80,7 +87,10 @@ input {
 
 label {
   color: #fff;
-  margin-left: 2rem;
+}
+
+.label-text {
+  margin-right: 2rem;
 }
 .color-picker {
   height: 2rem;

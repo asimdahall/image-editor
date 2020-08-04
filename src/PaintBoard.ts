@@ -1,6 +1,4 @@
-import { Console } from "console";
-import { read } from "fs";
-import { HexBase64BinaryEncoding } from "crypto";
+import jsPDF from "jspdf";
 
 export class PaintBoard {
   canvas: HTMLCanvasElement;
@@ -9,18 +7,19 @@ export class PaintBoard {
   strokeWidth: number;
   isPainting: boolean;
   image: HTMLImageElement;
+  scaleFactor: number;
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.paintColor = "red";
-    this.strokeWidth = 4;
+    this.strokeWidth = 10;
     this.isPainting = false;
+    this.scaleFactor = 1;
   }
   getMousePos(e) {
-    const rect = this.canvas.getBoundingClientRect();
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: e.offsetX,
+      y: e.offsetY,
     };
   }
   start = (e) => {
@@ -31,6 +30,20 @@ export class PaintBoard {
   finish = () => {
     this.isPainting = false;
     this.context.beginPath();
+  };
+
+  onMouseOut = () => {
+    if (!this.isPainting) {
+      this.isPainting = false;
+    }
+  };
+
+  onMouseEnter = (e) => {
+    if (!this.isPainting) {
+      return;
+    }
+    this.context.beginPath();
+    this.draw(e);
   };
 
   draw = (e) => {
@@ -71,28 +84,83 @@ export class PaintBoard {
     this.context.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
   };
 
-  rotatePlus = () => {
+  rotatePlus = async () => {
+    if (!this.image) {
+      alert("Please upload image to rotate");
+      return;
+    }
     this.clearCanvas();
     this.context.translate(600, 0);
     this.context.rotate(Math.PI / 2);
     this.drawImage();
-    this.context.restore();
   };
   rotateMinus = () => {
+    if (!this.image) {
+      alert("Please upload image to rotate");
+      return;
+    }
     this.clearCanvas();
     this.context.translate(0, 600);
     this.context.rotate(-(Math.PI / 2));
     this.drawImage();
-    this.context.restore();
   };
+  zoom = () => {
+    this.context.scale(this.scaleFactor, this.scaleFactor);
+    this.drawImage();
+    this.context.setTransform(1, 0, 0, 1, 0, 0);
+  };
+  zoomIn = () => {
+    if (!this.image) {
+      alert("Please upload image to zoom in");
+      return;
+    }
+    this.clearCanvas();
+    this.scaleFactor += 0.2;
+    this.zoom();
+  };
+  zoomOut = () => {
+    if (!this.image) {
+      alert("Please upload image to zoom out");
+      return;
+    }
+    this.clearCanvas();
+    this.scaleFactor -= 0.2;
+    this.zoom();
+  };
+
   setPenColor = (color) => {
     this.paintColor = color;
   };
-  downloadImage = (format) => {
-    const url = this.canvas.toDataURL("application/pdf");
-    const element = document.createElement("a");
-    element.download = "downloaded.png";
-    element.href = url;
-    element.click();
+
+  setBrushSize = (size: number) => {
+    this.strokeWidth = size;
+  };
+  downloadImage = () => {
+    if (!this.image) {
+      alert("please upload the image to download");
+      return;
+    }
+
+    const format: "jpeg" | "png" | "pdf" = prompt(
+      "Which format do you want to save the image with? You can choose jpeg, png and pdf."
+    ) as "jpeg" | "png" | "pdf";
+
+    if (!["jpeg", "jpg", "png", "pdf"].includes(format.toLowerCase())) {
+      alert("Please choose a suitable format.");
+      return;
+    }
+
+    if (format === "pdf") {
+      const imgData = this.canvas.toDataURL("image/png");
+      const doc = new jsPDF("p", "mm");
+      doc.addImage(imgData, "PNG", 10, 10);
+      doc.save("edited.pdf");
+    } else {
+      const url = this.canvas.toDataURL(`image/${format}`, 1.0);
+      const element = document.createElement("a");
+      element.download = `downloaded.${format}`;
+      element.href = url;
+      element.click();
+    }
   };
 }
