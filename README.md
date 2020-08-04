@@ -14,4 +14,4 @@ Tools used
 - typescript
 - pdfjs
 
-You can find the deployed site in this [https://image-editor-pro.netlify.app/](Link)
+You can find the deployed site in this [Link](https://image-editor-pro.netlify.app/)
